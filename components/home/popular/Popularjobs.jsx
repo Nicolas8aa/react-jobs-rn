@@ -23,6 +23,10 @@ const Popularjobs = () => {
     page: 1,
   });
 
+  const handleCardPress = (item) => {
+    router.push(`/job-details/${item?.job_id}`);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -33,13 +37,13 @@ const Popularjobs = () => {
       </View>
       <View style={styles.cardsContainer}>
         {isLoading && <ActivityIndicator size="large" color={COLORS.primary} />}
-        {error && (
-          <Text>Something went wrong: {JSON.stringify(error, null, 2)}</Text>
-        )}
+        {error && <Text>Something went wrong</Text>}
         {!isLoading && !error && (
           <FlatList
             data={data}
-            renderItem={({ item }) => <PopularJobCard item={item} />}
+            renderItem={({ item }) => (
+              <PopularJobCard item={item} handleCardPress={handleCardPress} />
+            )}
             keyExtractor={(item) => item?.job_id}
             contentContainerStyle={{
               columnGap: SIZES.medium,
