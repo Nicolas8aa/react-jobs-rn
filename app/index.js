@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, View, ScrollView, SafeAreaView } from "react-native";
+import { Text, View, ScrollView, SafeAreaView, Alert } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
 import { COLORS, icons, images, SIZES, FONTS } from "../constants";
@@ -12,6 +12,9 @@ import {
 
 const Home = () => {
   const router = useRouter();
+
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <SafeAreaView
       style={{
@@ -41,7 +44,15 @@ const Home = () => {
             padding: SIZES.medium,
           }}
         >
-          <Welcome />
+          <Welcome
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            handlePress={() => {
+              if (searchTerm) {
+                router.push(`/search/${searchTerm}`);
+              }
+            }}
+          />
           <Popularjobs />
           <Nearbyjobs />
         </View>
