@@ -39,6 +39,32 @@ const JobDetails = () => {
     setRefreshing(false);
   }, []);
 
+  const displayTabContent = () => {
+    switch (activeTab) {
+      case "About":
+        return <JobAbout info={job.job_description ?? "No data provided"} />;
+
+      case "Qualifications":
+        return (
+          <Specifics
+            title="Qualifications"
+            points={job.job_highlights?.Qualifications ?? ["No qualifications"]}
+          />
+        );
+      case "Responsibilities":
+        return (
+          <Specifics
+            title="Responsibilities"
+            points={
+              job.job_highlights?.Responsibilities ?? ["No responsibilities"]
+            }
+          />
+        );
+      default:
+        break;
+    }
+  };
+
   const job = data[0];
 
   return (
@@ -83,7 +109,7 @@ const JobDetails = () => {
             <ActivityIndicator size="large" color={COLORS.primary} />
           )}
           {error && <Text>Something weng wrong</Text>}
-          {!job && <Text>No data found</Text>}
+          {!job && !isLoading && <Text>No data found</Text>}
           {job && !isLoading && (
             <View
               style={{
@@ -102,6 +128,7 @@ const JobDetails = () => {
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
               />
+              {displayTabContent()}
             </View>
           )}
         </ScrollView>
