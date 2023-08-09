@@ -21,6 +21,8 @@ import {
 import { COLORS, icons, SIZES } from "../../constants";
 import useFetch from "../../hook/useFetch";
 
+const tabs = ["About", "Qualifications", "Responsibilities"];
+
 const JobDetails = () => {
   const params = useSearchParams();
   const router = useRouter();
@@ -29,6 +31,7 @@ const JobDetails = () => {
   const { data, error, isLoading, refetch } = useFetch("job-details", {
     job_id: params.id,
   });
+  const [activeTab, setActiveTab] = useState(tabs[0]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -94,7 +97,11 @@ const JobDetails = () => {
                 companyName={job.employer_name}
                 jobLocation={job.job_country}
               />
-              <JobTabs />
+              <JobTabs
+                tabs={tabs}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
             </View>
           )}
         </ScrollView>
